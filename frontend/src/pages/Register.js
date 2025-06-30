@@ -1,24 +1,35 @@
-// File: frontend/src/pages/Register.js
+// File: src/pages/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export default function Register() {
+const Register = () => {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = async () => {
-    await axios.post('/api/auth/signup', { email, password });
-    navigate('/');
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:5000/api/auth/register', { username, email, password });
+      navigate('/login');
+    } catch (err) {
+      alert('Registration failed');
+    }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <input type="email" onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      <input type="password" onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      <button onClick={handleRegister}>Register</button>
+    <div className="max-w-md mx-auto mt-20 p-6 border shadow rounded">
+      <h2 className="text-2xl font-bold mb-4">Register</h2>
+      <form onSubmit={handleRegister} className="flex flex-col gap-4">
+        <input className="border p-2" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        <input className="border p-2" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input className="border p-2" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <button className="bg-blue-600 text-white p-2 rounded">Register</button>
+      </form>
     </div>
   );
-}
+};
+
+export default Register;

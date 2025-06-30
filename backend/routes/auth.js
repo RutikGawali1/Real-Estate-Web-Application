@@ -1,6 +1,12 @@
 const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+// If using bcrypt
+const bcrypt = require('bcrypt');
+
+// OR if using bcryptjs instead
+// const bcrypt = require('bcryptjs');
+
 
 // Register
 router.post('/register', async (req, res) => {
@@ -14,18 +20,24 @@ router.post('/register', async (req, res) => {
 });
 
 // Login
+// routes/auth.js
 router.post('/login', async (req, res) => {
+  const { identifier, password } = req.body;
+
   try {
-    const user = await User.findOne({ username: req.body.username });
-    if (!user) return res.status(400).json({ message: 'Invalid credentials' });
+    // Check if it's an email or username
+    const isEmail = identifier.includes('@');
+    const user = await User.findOne(isEmail ? { email: identifier } : { username: identifier });
 
-    const isMatch = await user.comparePassword(req.body.password);
-    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+    if (!user) return res.status(400).json({ message: 'User not found' });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) return res.status(401).json({ message: 'Invalid password' });
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '24h' });
     res.json({ token });
   } catch (err) {
-    res.status(500).json(err.message);
+    res.status(500).json({ message: err.message });
   }
 });
 
