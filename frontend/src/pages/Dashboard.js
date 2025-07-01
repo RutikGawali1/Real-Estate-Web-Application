@@ -10,6 +10,7 @@ const Dashboard = () => {
   const [imageUrl, setImageUrl] = useState('');
   const [message, setMessage] = useState('');
   const [myProperties, setMyProperties] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const token = localStorage.getItem('token');
 
@@ -119,19 +120,35 @@ const Dashboard = () => {
 
       <div className="mt-10">
         <h3 className="text-xl font-semibold mb-2">Your Properties</h3>
+
+        <input
+          type="text"
+          placeholder="Search by title or location"
+          className="w-full p-2 mb-4 border rounded"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+
         <ul className="space-y-4">
-          {myProperties.map((prop) => (
-            <li key={prop._id} className="border p-4 rounded shadow">
-              <h4 className="font-bold">{prop.title}</h4>
-              <p>{prop.location} — ₹{prop.price}</p>
-              <p className="text-sm text-gray-600">{prop.description}</p>
-              <img src={prop.imageUrl} alt="" className="w-full h-40 object-cover my-2" />
-              <button
-                onClick={() => handleDelete(prop._id)}
-                className="bg-red-600 text-white px-3 py-1 rounded"
-              >Delete</button>
-            </li>
-          ))}
+          {myProperties
+            .filter((prop) =>
+              prop.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              prop.location.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+            .map((prop) => (
+              <li key={prop._id} className="border p-4 rounded shadow">
+                <h4 className="font-bold">{prop.title}</h4>
+                <p>{prop.location} — ₹{prop.price}</p>
+                <p className="text-sm text-gray-600">{prop.description}</p>
+                <img src={prop.imageUrl} alt="" className="w-full h-40 object-cover my-2" />
+                <button
+                  onClick={() => handleDelete(prop._id)}
+                  className="bg-red-600 text-white px-3 py-1 rounded"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
         </ul>
       </div>
     </div>
