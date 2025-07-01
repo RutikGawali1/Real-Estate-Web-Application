@@ -21,12 +21,12 @@ const Register = () => {
 
   return (
     <div className="max-w-md mx-auto mt-20 p-6 border shadow rounded">
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
+      <h2 className="text-2xl font-bold mb-4">SignUp</h2>
       <form onSubmit={handleRegister} className="flex flex-col gap-4">
         <input className="border p-2" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
         <input className="border p-2" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input className="border p-2" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <button className="bg-blue-600 text-white p-2 rounded">Register</button>
+        <button className="bg-blue-600 text-white p-2 rounded">SignUp</button>
       </form>
     </div>
   );

@@ -16,14 +16,14 @@ router.post('/', verifyToken, async (req, res) => {
 
 // Get properties of logged-in user
 
-/* router.get('/my', verifyToken, async (req, res) => {
+ router.get('/my', verifyToken, async (req, res) => {
   try {
     const properties = await Property.find({ owner: req.user.id });
     res.json(properties);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}); */
+}); 
 
 
 // Get all or filtered properties

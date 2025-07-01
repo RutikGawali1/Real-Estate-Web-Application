@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Login from '././pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import CloudinaryDemo from './components/CloudinaryDemo';
 
 const App = () => {
   const isAuthenticated = !!localStorage.getItem('token');
@@ -41,6 +42,7 @@ const App = () => {
           path="/dashboard"
           element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
         />
+        <Route path='/cloud' element={<CloudinaryDemo/>} />
       </Routes>
     </Router>
   );
