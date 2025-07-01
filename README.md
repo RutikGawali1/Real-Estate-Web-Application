@@ -168,7 +168,6 @@ For support, email your-email@example.com or create an issue in the GitHub repos
 ## 🔗 Links
 
 - **Live Demo**: [Your Live Demo URL]
-- **GitHub Repository**: [Your GitHub Repo URL]
 - **Cloudinary Documentation**: https://cloudinary.com/documentation
 
 ---
